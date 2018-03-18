@@ -1,0 +1,18 @@
+product-api-endpoint: https://redsky.target.com
+
+server:
+  port: 8899
+
+spring:
+  data:
+    cassandra:
+      keyspace-name: javasampleapproach
+      contact-points: localhost
+      port: 9042
+
+
+kafka:
+  bootstrap-servers: localhost:9092
+  topic: test-topic
+  message:
+    publish-interval: 500
