@@ -2,6 +2,7 @@
 
 Cassandra related configuration. 
 
+```
 CREATE KEYSPACE myretailapp
   WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
   
@@ -12,16 +13,18 @@ currency text,
 PRIMARY KEY (productid)
 );  
 
-
-insert into myretailapp.price(productid, price, currency) values ('13860428', '500', 'INR');
+insert into myretailapp.price(productid, price, currency) values ('13860428', '50', 'USD');
 
 cqlsh:myretailapp> select * from myretailapp.price;
 
- productid | currency | price
+productid | currency | price
 -----------+----------+-------
-  13860428 |      INR |   500
+ 13860428 |      USD |   50
 
 (1 rows)
-cqlsh:myretailapp> select * from myretailapp.price;
 
+cqlsh:myretailapp> select * from myretailapp.price;
+```
                                                                       
+
+
