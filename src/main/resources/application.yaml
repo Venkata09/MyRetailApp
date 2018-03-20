@@ -1,4 +1,4 @@
-product-api-endpoint: https://redsky.target.com
+BASE_URL: https://redsky.target.com
 
 server:
   port: 8899
@@ -6,7 +6,7 @@ server:
 spring:
   data:
     cassandra:
-      keyspace-name: javasampleapproach
+      keyspace-name: myretailapp
       contact-points: localhost
       port: 9042
 

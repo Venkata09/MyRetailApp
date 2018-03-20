@@ -28,12 +28,10 @@ public class ProductDataClient {
     @Autowired
     private RestTemplateConfiguration restTemplateConfiguration;
 
-    @Value("${product-api-endpoint}")
+    @Value("${BASE_URL}")
     private String productDataURL;
 
     private String product_URI = "/v2/pdp/tcin/";
-
-//    private String url = "https://redsky.target.com/v2/pdp/tcin/13860428";
 
     public String gerProductDetails(String productId) throws ProductNotFoundException {
 

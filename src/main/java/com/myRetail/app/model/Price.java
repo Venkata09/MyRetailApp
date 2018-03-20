@@ -15,6 +15,9 @@ public class Price {
     private String price;
     private String currency;
 
+    public Price() {
+    }
+
     public Price(String productId, String price, String currency) {
         this.productId = productId;
         this.price = price;

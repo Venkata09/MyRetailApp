@@ -51,8 +51,6 @@ public class ProductServiceImpl implements ProductService {
 
     public Price updatePrice(Price newPriceObj) throws PriceNotFoundException {
 
-        String x = null;
-
         if (newPriceObj != null && StringUtils.isNotBlank(newPriceObj.getProductId())) {
             Price priceObjectInDB = priceRepository.findPriceByProductId(newPriceObj.getProductId());
             if (priceObjectInDB != null) {

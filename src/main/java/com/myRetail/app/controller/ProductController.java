@@ -1,8 +1,6 @@
 package com.myRetail.app.controller;
 
 
-
-
 import com.myRetail.app.exception.PriceNotFoundException;
 import com.myRetail.app.exception.ProductNotFoundException;
 import com.myRetail.app.model.Price;
@@ -16,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * @author vdokku
@@ -37,25 +37,23 @@ public class ProductController {
         try {
             product = productService.getProductDetailsByProductId(productId);
         } catch (Exception ex) {
-            LOGGER.error("Product Not Found :-- " + ex);
+            LOGGER.error("Product Not Found :- " + ex);
             throw new ProductNotFoundException();
         }
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/product/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> updatePriceForProduct(@PathVariable("id") String productId, @RequestBody Price newPriceObj) throws PriceNotFoundException {
+    public Price updatePriceForProduct(@PathVariable("id") String productId, @RequestBody Price newPriceObj) throws PriceNotFoundException {
 
         if (StringUtils.isNotBlank(productId) && productId.equalsIgnoreCase(newPriceObj.getProductId())) {
-            productService.updatePrice(newPriceObj);
+            return productService.updatePrice(newPriceObj);
         } else {
             LOGGER.error("Product ID " + productId + " not is not inline with Price "
                     + newPriceObj.getProductId());
             throw new PriceNotFoundException();
         }
-        return new ResponseEntity<String>("Successfully updated the product price : ", HttpStatus.OK);
 
     }
-
 
 }
