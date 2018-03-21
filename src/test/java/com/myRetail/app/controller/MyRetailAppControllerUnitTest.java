@@ -4,13 +4,16 @@ import com.myRetail.app.client.ProductDataClient;
 import com.myRetail.app.controller.ProductController;
 import com.myRetail.app.model.Price;
 import com.myRetail.app.model.Product;
+import com.myRetail.app.repository.PriceRepository;
 import com.myRetail.app.service.ProductService;
+import com.myRetail.app.service.impl.ProductServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Mockito.when;
+
 
 /**
  * @author vdokku
@@ -31,7 +36,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @WebMvcTest(value = ProductController.class)
 @RunWith(SpringRunner.class)
-public class MyRetailAppControllerTest {
+public class MyRetailAppControllerUnitTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
@@ -39,13 +44,14 @@ public class MyRetailAppControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    ProductService productService;
+    ProductServiceImpl productService;
 
     @Mock
-    ProductDataClient productDataClientMock;
+    PriceRepository priceRepositoryMock;
 
     @Before
     public void setUp() {
+        Mockito.reset(priceRepositoryMock);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -59,8 +65,7 @@ public class MyRetailAppControllerTest {
     @Test
     public void getProductDetails() throws Exception {
 
-        Mockito.when(productService.getProductDetailsByProductId(Mockito.anyString())).thenReturn(mockProduct);
-
+        when(productService.getProductDetailsByProductId(Mockito.anyString())).thenReturn(mockProduct);
 
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.request(HttpMethod.GET, endPointURL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,7 +79,22 @@ public class MyRetailAppControllerTest {
     @Test
     public void updatePriceForProduct() throws Exception {
 
-        Mockito.when(productService.updatePrice(Mockito.any(Price.class))).thenReturn(newPrice);
+//        when(productService.updatePrice(Mockito.any(Price.class))).thenReturn(newPrice);
+
+
+        //Arrange
+        Mockito.doReturn(newPrice).when(priceRepositoryMock).save(newPrice);
+
+        Mockito.doReturn(newPrice).when(priceRepositoryMock).findPriceByProductId(newPrice.getProductId());
+
+
+
+        Mockito.doReturn(newPrice).when(priceRepositoryMock).save(newPrice);
+        Mockito.doReturn(newPrice).when(priceRepositoryMock).findPriceByProductId(newPrice.getProductId());
+
+        when(priceRepositoryMock.findPriceByProductId(Mockito.any(String.class))).thenReturn(newPrice);
+
+        when(priceRepositoryMock.save(Mockito.any(Price.class))).thenReturn(newPrice);
 
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders
                 .request(HttpMethod.POST, endPointURL)

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author vdokku
  */
 
-@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Internal Server Error ")
+@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Price information is not found in DB. ")
 public class PriceNotFoundException extends Exception {
 
     private int errorCode;

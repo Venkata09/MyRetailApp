@@ -15,5 +15,9 @@ public interface ProductService {
 
     Product getProductDetailsByProductId(String productId) throws ProductNotFoundException;
 
+    boolean isValidProduct(String productId);
+
     Price updatePrice(Price newPriceObj) throws PriceNotFoundException;
+
+
 }

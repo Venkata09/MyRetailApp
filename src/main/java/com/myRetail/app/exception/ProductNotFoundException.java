@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author vdokku
  */
 
-@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Internal Server Error ")
+@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Product data is not available")
 public class ProductNotFoundException extends Exception {
 
     private int errorCode;

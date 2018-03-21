@@ -28,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductDataClient productDataClient;
 
+    @Override
     public Product getProductDetailsByProductId(String productId) throws ProductNotFoundException {
         String productName = null;
         Product product = null;
@@ -48,20 +49,21 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    @Override
+    public boolean isValidProduct(String productId) {
+        System.out.println(" ============================ ");
+        Price priceObjectInDB = priceRepository.findPriceByProductId(productId);
+        if (priceObjectInDB != null) {
+            return true;
+        }
+        return false;
+    }
 
+    @Override
     public Price updatePrice(Price newPriceObj) throws PriceNotFoundException {
-
         if (newPriceObj != null && StringUtils.isNotBlank(newPriceObj.getProductId())) {
-            Price priceObjectInDB = priceRepository.findPriceByProductId(newPriceObj.getProductId());
-            if (priceObjectInDB != null) {
-                priceObjectInDB.setCurrency(newPriceObj.getCurrency());
-                priceObjectInDB.setPrice(newPriceObj.getPrice());
-
-                priceRepository.save(newPriceObj);
-            } else {
-                throw new PriceNotFoundException(HttpStatus.NO_CONTENT.value(), "Price Information is not found for Product " + newPriceObj.getProductId());
-            }
-            return priceObjectInDB;
+            priceRepository.save(newPriceObj);
+            return newPriceObj;
         } else {
             throw new PriceNotFoundException(HttpStatus.NO_CONTENT.value(), "Price Information is not found for Product " + newPriceObj.getProductId());
         }
