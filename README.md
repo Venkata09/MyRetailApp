@@ -2,6 +2,8 @@
 
 Cassandra related configuration. 
 
+This configuation is needed inorder to pass the Integration testing. 
+
 ```
 CREATE KEYSPACE myretailapp
   WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
