@@ -69,5 +69,4 @@ public class ProductDataClient {
         }
         return productName;
     }
-
 }
