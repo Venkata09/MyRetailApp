@@ -5,6 +5,7 @@ import com.myRetail.app.exception.PriceNotFoundException;
 import com.myRetail.app.exception.ProductNotFoundException;
 import com.myRetail.app.model.Price;
 import com.myRetail.app.model.Product;
+import com.myRetail.app.service.KafkaSender;
 import com.myRetail.app.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    KafkaSender kafkaSender;
 
     @GetMapping(value = "/product/{id}", /*method = RequestMethod.GET, */produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> getProductDetails(@PathVariable("id") String productId) throws ProductNotFoundException {
@@ -51,6 +55,7 @@ public class ProductController {
         }
 
         updatedPriceObject = productService.updatePrice(newPriceObj);
+        kafkaSender.sendData(updatedPriceObject.toString());
         return new ResponseEntity<>(updatedPriceObject, HttpStatus.OK);
     }
 

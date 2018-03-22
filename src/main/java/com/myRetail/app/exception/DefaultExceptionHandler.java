@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     @ExceptionHandler(ProductNotFoundException.class)
