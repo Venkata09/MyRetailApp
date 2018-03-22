@@ -6,6 +6,7 @@ import com.myRetail.app.exception.ProductNotFoundException;
 import com.myRetail.app.model.Price;
 import com.myRetail.app.model.Product;
 import com.myRetail.app.repository.PriceRepository;
+import com.myRetail.app.service.KafkaSender;
 import com.myRetail.app.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductDataClient productDataClient;
+
+    @Autowired
+    KafkaSender kafkaSender;
+
 
     @Override
     public Product getProductDetailsByProductId(String productId) throws ProductNotFoundException {
@@ -51,7 +56,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean isValidProduct(String productId) {
-        System.out.println(" ============================ ");
         Price priceObjectInDB = priceRepository.findPriceByProductId(productId);
         if (priceObjectInDB != null) {
             return true;
@@ -63,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
     public Price updatePrice(Price newPriceObj) throws PriceNotFoundException {
         if (newPriceObj != null && StringUtils.isNotBlank(newPriceObj.getProductId())) {
             priceRepository.save(newPriceObj);
+            kafkaSender.sendData(newPriceObj.toString());
             return newPriceObj;
         } else {
             throw new PriceNotFoundException(HttpStatus.NO_CONTENT.value(), "Price Information is not found for Product " + newPriceObj.getProductId());

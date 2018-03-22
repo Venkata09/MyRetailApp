@@ -5,6 +5,7 @@ import com.myRetail.app.controller.ProductController;
 import com.myRetail.app.model.Price;
 import com.myRetail.app.model.Product;
 import com.myRetail.app.repository.PriceRepository;
+import com.myRetail.app.service.KafkaSender;
 import com.myRetail.app.service.ProductService;
 import com.myRetail.app.service.impl.ProductServiceImpl;
 import org.junit.Before;
@@ -73,36 +74,5 @@ public class MyRetailAppControllerUnitTest {
 
         String expectedProductJson = "{\"id\":\"13860428\",\"title\":\"The Big Lebowski (Blu-ray)\",\"price\":{\"productId\":\"13860428\",\"price\":\"100\",\"currency\":\"USD\"}}";
         JSONAssert.assertEquals(expectedProductJson, action.andReturn().getResponse().getContentAsString(), false);
-    }
-
-
-    @Test
-    public void updatePriceForProduct() throws Exception {
-
-//        when(productService.updatePrice(Mockito.any(Price.class))).thenReturn(newPrice);
-
-
-        //Arrange
-        Mockito.doReturn(newPrice).when(priceRepositoryMock).save(newPrice);
-
-        Mockito.doReturn(newPrice).when(priceRepositoryMock).findPriceByProductId(newPrice.getProductId());
-
-
-
-        Mockito.doReturn(newPrice).when(priceRepositoryMock).save(newPrice);
-        Mockito.doReturn(newPrice).when(priceRepositoryMock).findPriceByProductId(newPrice.getProductId());
-
-        when(priceRepositoryMock.findPriceByProductId(Mockito.any(String.class))).thenReturn(newPrice);
-
-        when(priceRepositoryMock.save(Mockito.any(Price.class))).thenReturn(newPrice);
-
-        ResultActions action = mockMvc.perform(MockMvcRequestBuilders
-                .request(HttpMethod.POST, endPointURL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(postPriceForProduct));
-
-        String expectedJsonOutput = "{\"productId\":\"13860428\",\"price\":\"500\",\"currency\":\"INR\"}";
-        JSONAssert.assertEquals(expectedJsonOutput, action.andReturn().getResponse().getContentAsString(), false);
     }
 }

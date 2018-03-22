@@ -1,34 +1,22 @@
 package com.myRetail.app.service;
 
 import com.myRetail.app.client.ProductDataClient;
-import com.myRetail.app.controller.ProductController;
 import com.myRetail.app.model.Price;
-import com.myRetail.app.model.Product;
 import com.myRetail.app.repository.PriceRepository;
-import com.myRetail.app.service.impl.ProductServiceImpl;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -51,6 +39,16 @@ public class MyRetailAppServiceTest {
 
     @MockBean
     ProductDataClient productDataClient;
+
+    private static final String HELLOWORLD_TOPIC = "helloworld.t";
+
+    @ClassRule
+    public static KafkaEmbedded embeddedKafka =
+            new KafkaEmbedded(1, true, HELLOWORLD_TOPIC);
+
+    @MockBean
+    KafkaSender sender;
+
 
     @Before
     public void setUp() {

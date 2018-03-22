@@ -29,8 +29,10 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @Autowired
-    KafkaSender kafkaSender;
+
+//    @Autowired
+//    KafkaSender kafkaSender;
+
 
     @GetMapping(value = "/product/{id}", /*method = RequestMethod.GET, */produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> getProductDetails(@PathVariable("id") String productId) throws ProductNotFoundException {
@@ -55,7 +57,7 @@ public class ProductController {
         }
 
         updatedPriceObject = productService.updatePrice(newPriceObj);
-        kafkaSender.sendData(updatedPriceObject.toString());
+//        kafkaSender.sendData(updatedPriceObject.toString());
         return new ResponseEntity<>(updatedPriceObject, HttpStatus.OK);
     }
 
