@@ -6,9 +6,9 @@ Technical stack used:
 1. Spring-boot
 1. Kafka
 
-Cassandra related configuration. 
+##### prerequisites: 
 
-This configuration is needed inorder to pass the Integration testing. 
+Cassandra should be installed in the machine, listed with the below configuration. 
 
 ```
 CREATE KEYSPACE myretailapp
@@ -65,3 +65,5 @@ Post request Successfully updated the price to 53.
 Price update is sent to Kafka. 
 
 ![UpdateRequestStoredToKafka.](https://i1.wp.com/venkatad.files.wordpress.com/2018/03/postrequest_updatetokafka.png?ssl=1&w=450)
+
+
