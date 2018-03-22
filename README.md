@@ -2,7 +2,7 @@
 
 Technical stack used:
 1. Java 
-1. Cassandra 
+1. Cassandra
 1. Spring-boot
 1. Kafka
 
@@ -35,7 +35,7 @@ cqlsh:myretailapp> select * from myretailapp.price;
 ```
                                                                       
 ### Recommendations
-1) Use of Eureka server will provide load balancing which decreases the latency and improves fault-tolerance.
+1) Use of Spring cloud, Eureka server will provide load balancing which decreases the latency and improves fault-tolerance.
    1. To implement this Start a Eureka Server instance.
    1. Register multiple instances of the redsky.
    1. Enable Eureka client discovery in client application (MyRetailApp), based on the availability zone client application will contact one of the instances of redsky application.
